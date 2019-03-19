@@ -1,0 +1,59 @@
+﻿@using ZenithApp1.Models;
+@model ZenithApp1.ViewModels.Explore.ExploreViewModel
+@{
+    ViewBag.Title = "Explore All";
+}
+
+<div class="inner-header container noselect">
+    <div class="explore-header">
+        <div class="explore-header-items">
+            <div class="header-text-sm header-item" onclick="@("window.location.href='" + @Url.Action("Index", "Explore") + "'");">All</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Posts", "Explore") + "'");">Posts</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Images", "Explore") + "'");">Images</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Videos", "Explore") + "'");">Videos</div>
+        </div>
+    </div>
+</div>
+
+<div class="explore-container">
+
+            @{ List<Post> lp = ViewBag.Projects;
+                int postCount = lp.Count();
+            }
+            @if (postCount > 0)
+            {
+                <div style="width: 70%; margin: auto;">
+                    <table style="width: 100%" class="table table-striped table-bordered table-condensed infinite-scroll">
+                        <tbody>
+                            @Html.Partial("_PostData", (ViewBag.Projects as List<Post>))
+                        </tbody>
+                    </table>
+                    </div>
+                    }
+                    else
+                    {
+                    <div class="outer container">
+                        <div class="outer-header">
+                            <div class="header-text-sm noselect">Explore Feed</div>
+                        </div>
+                        <div class="none-to-show">
+                            <div class="cry-text-sm"><i class="far fa-sad-cry no-data-icon-lg"></i></div>
+                            <div class="header-text-xlg inactive-text noselect">No Posts to Show</div>
+                        </div>
+                    </div>
+                    }
+                </div>
+        <div>
+        </div>
+@section scripts{
+    <script src="~/Scripts/lazyLoading.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+        var url = '@Url.RouteUrl("PostDataListExplore")';
+        $(window).scroll(scrollHandler);
+    </script>
+
+}

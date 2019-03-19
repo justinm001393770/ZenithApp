@@ -1,0 +1,238 @@
+﻿@using ZenithApp1.Models
+<!DOCTYPE html>
+<html id="html">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" href="normalize.css">
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/view-styles.css" rel="stylesheet" type="text/css" />
+</head>
+
+<div id="loadScreen" class="load">
+    <div class="loader"></div>
+    <div class="logo">
+        <i class="fas fa-gamepad"></i>
+    </div>
+</div>
+
+<body onload="setTimeout(pageLoaded, 1)">
+    <div class="main">
+        <div class="user-component">
+            <div class="user-profile-picture" style="background-image: url(@Session["UserProfileImage"])">
+                @if (Session["UserProfileImage"] == null || Session["UserProfileImage"].ToString() == "")
+                {
+                    <img class="noselect" src="~/Content/Images/blankuser3.png">
+                }
+            </div>
+            <div class="user-username">
+                <a href="@Url.Action("Edit", "Profile")">
+                    <div class="icon-bg icon-fix">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                </a>
+                <span class="noselect">@Session["UserUsername"]</span>
+            </div>
+        </div>
+
+        <div class="sidebar-top">
+            <a href="@Url.Action("Index", "Followers")">
+                <div class="oval-btn noselect">
+                    <div class="icon-bg">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="oval-text-sm noselect">Followers</span>
+                    <span class="follow-counter" style="justify-self: end; padding-right: 10px;">@LoggedInUser.UserFollowerCount</span>
+                </div>
+            </a>
+            <a href="@Url.Action("Index", "Following")">
+                <div class="oval-btn noselect" style="margin-bottom: 1rem">
+                    <div class="icon-bg">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="oval-text-sm noselect">Following</span>
+                    <div class="follow-counter" style="justify-self: end; padding-right: 10px;">@LoggedInUser.UserFollowingCount</div>
+                </div>
+            </a>          
+            <a href="@Url.Action("Index", "Dashboard")">
+                <div class="@Html.IsActive("Dashboard")">
+                    <div class="icon-bg">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <span class="noselect">Dashboard</span>
+                </div>
+            </a>
+
+            <a href="@Url.Action("Index", "Profile")">
+                <div class="@Html.IsActive("Profile")">
+                    <div class="icon-bg">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="noselect">Profile</span>
+                </div>
+            </a>
+
+            <a href="@Url.Action("Index", "Games")">
+                <div class="@Html.IsActive("Games")">
+                    <div class="icon-bg">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <span class="noselect">Games</span>
+                </div>
+            </a>
+
+            <a href="@Url.Action("Index", "Explore")">
+                <div class="@Html.IsActive("Explore")">
+                    <div class="icon-bg">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <span class="noselect">Explore</span>
+                </div>
+            </a>
+
+            <a href="@Url.Action("Index", "Watch")">
+                <div class="@Html.IsActive("Watch")">
+                    <div class="icon-bg">
+                        <i class="fab fa-twitch"></i>
+                    </div>
+                    <span class="noselect">Watch</span>
+                </div>
+            </a>
+
+            <a href="@Url.Action("Index", "Chat")">
+                <div class="@Html.IsActive("Chat")">
+                    <div class="icon-bg">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <span class="noselect">Chat</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="sidebar-bottom">
+            <a href="@Url.Action("Index", "Logout")">
+                <div class="bottom-btn-sidebar bottom-btn">
+                    <div class="icon-bg">
+                        <i class="fas fa-power-off"></i>
+                    </div>
+                    <span class="noselect">Logout</span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="main-grid">
+
+        <div class="empty">
+            <div class="top-bar">
+                <div class="bar-left">
+
+                </div>
+                <div class="bar-right">
+                    <div id="navbar" class="navbar" onmouseover="showBar()" onmouseleave="hideBar()">
+                        <a href="@Url.Action("Index", "Dashboard")">
+                            <div class="navbar-btn left-btn">
+                                <i class="fas fa-home"></i>
+                            </div>
+                        </a>
+                        <span class="noselect">Location</span>
+                        <div onclick="window.history.go(-1)">
+                            <div class="navbar-btn left-btn">
+                                <i class="fas fa-angle-left"></i>
+                            </div>
+                        </div>
+                        <div onclick="window.history.go(1)">
+                            <div class="navbar-btn right-btn">
+                                <i class="fas fa-angle-right"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bar-space">
+                    <div id="searchbar" class="searchbar" onmouseover="showBar()" onmouseleave="hideBar()">
+                        <div onclick="">
+                            <div class="navbar-btn left-btn">
+                                <i class="fas fa-search" onclick="SearchAction()"></i>
+                            </div>
+                        </div>
+                        <div class="search-box-container">
+                            <select id="soflow-color" class="search-box-select" onchange="document.getElementById('displayValue').placeholder='Search '+this.options[this.selectedIndex].text+'...'; document.getElementById('idValue').value=this.options[this.selectedIndex].value;">
+                                <option value="Profiles">Profiles</option>
+                                <option value="Games">Games</option>
+                            </select>
+                            <input name="displayValue" placeholder="Search Profiles..." id="displayValue" class="search-input" onfocus="this.select()" type="text">
+                            <input name="idValue" id="idValue" type="hidden">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-body">
+            <div class="content-blank"></div>
+            <div class="content-here">
+                <div>@RenderBody()</div>
+            </div>
+        </div>
+        <div class="footer">
+            <div></div>
+            <hr>
+            <div id="toTop" class="left-btn" title="Top">
+                <i class="fas fa-angle-up"></i>
+            </div>
+        </div>
+
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/myScripts.js")
+    @RenderSection("scripts", required: false)
+    @Scripts.Render("https://unpkg.com/ionicons@4.4.7/dist/ionicons.js")
+    <script src="~/Scripts/jquery.filedrop.js"></script>
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.2.0.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/knockout-3.4.0.js"></script>
+    <script src="~/Scripts/knockout.mapping-latest.js"></script>
+    <script src="~/Scripts/jquery.filedrop.js"></script>
+	<script>
+		function SearchAction() {
+			var searchBox = document.getElementById("displayValue");
+			var searchOptionSelector = document.getElementById("soflow-color");
+			var searchOption = searchOptionSelector.options[searchOptionSelector.selectedIndex].text;
+			if(searchOption == 'Profiles'){
+				window.location.href = "/Profile/" + searchBox.value;
+			}
+			if(searchOption == 'Games'){
+				post('/GameSearch/', {search: searchBox.value});
+			}
+		}
+		function post(path, params, method) {
+			method = method || "post"; // Set method to post by default if not specified.
+
+			// The rest of this code assumes you are not using a library.
+			// It can be made less wordy if you use one.
+			var form = document.createElement("form");
+			form.setAttribute("method", method);
+			form.setAttribute("action", path);
+
+			for(var key in params) {
+				if(params.hasOwnProperty(key)) {
+					var hiddenField = document.createElement("input");
+					hiddenField.setAttribute("type", "hidden");
+					hiddenField.setAttribute("name", key);
+					hiddenField.setAttribute("value", params[key]);
+
+					form.appendChild(hiddenField);
+				}
+			}
+
+			document.body.appendChild(form);
+			form.submit();
+		}
+	</script>
+</body>
+</html>

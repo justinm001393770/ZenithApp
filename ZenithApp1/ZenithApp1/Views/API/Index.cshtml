@@ -1,0 +1,56 @@
+﻿@using ZenithApp1.Models;
+@model ZenithApp1.ViewModels.API.APIViewModel
+
+@{
+    ViewBag.Title = "Game Search";
+}
+
+<div class="inner-header container noselect">
+    <div class="games-header">
+        <div class="games-header-items">
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Index", "Games") + "'");">Your Games</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("NewestReleases", "Games") + "'");">Newest Releases</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("MostPopular", "Games") + "'");">Most Popular</div>
+            <div class="header-text-sm header-item" onclick="@("window.location.href='" + Url.Action("Index", "GameSearch") + "'");">Basic Search</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("Index", "AdvancedSearch") + "'");">Advanced Search</div>
+        </div>
+        <div class="games-header-right">
+            <div class="header-text-icon header-item"><i class="fas fa-bars"></i></div>
+            <div class="header-text-icon header-item inactive"><i class="fas fa-th"></i></div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="outer container text-adv-search">
+        <div class="basic-search-container">
+
+            @Html.TextBoxFor(s => s.search, new { @placeholder = "Search a game title...", @class = "inner text-box-1", @autocomplete = "off", @style = "height: 35px", @required = "required" })
+            <input type="submit" style="height: 35px" class="btn-zenith blue" name="btnSubmit" value="Search" />
+            </div>
+        </div>
+    if (Model.gameList != null)
+    {
+        <div class="outer container">
+            <div class="outer-header noselect">
+                <div class="header-text-sm">Search Results</div>
+            </div>
+        </div>
+        <div class="outer container text-adv-search">
+            <div class="adv-search-container">
+                @{
+                    int j = 1;
+                    foreach (Game game in Model.gameList)
+                    {
+                        <div>@(j): <a href="@Url.Action("Index", "Game", new { id = game.id })">@game.name</a></div>
+                        j++;
+                    }}
+                </div>
+            </div>
+                }
+                else
+                {
+
+                }
+                }

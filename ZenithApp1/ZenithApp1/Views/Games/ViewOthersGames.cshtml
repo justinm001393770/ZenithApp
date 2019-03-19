@@ -1,0 +1,92 @@
+﻿@model ZenithApp1.ViewModels.Games.GamesViewModel
+@using ZenithApp1.Models;
+
+@{ string username = ViewContext.RouteData.Values["userName"].ToString();}
+@{ User profileOwner = ZenithApp1.Models.User.getUserByUsername(username);}
+@{
+    ViewBag.Title = username + " Games";
+}
+
+<div class="inner-header container noselect">
+    <div class="games-header">
+        <div class="header-text-lg"><i class="fas fa-user icon-profile"></i>@(username)</div>
+        <div class="games-header-right">
+            <div class="header-text-icon header-item"><i class="fas fa-bars"></i></div>
+            <div class="header-text-icon header-item inactive"><i class="fas fa-th"></i></div>
+        </div>
+    </div>
+    <div class="profile-main-component-sm">
+        <div class="profile-picture-container-xsm" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = username }) + "'");" style="background-image: url(@profileOwner.getProfilePicture())">
+            @if (profileOwner.getProfilePicture() == null || profileOwner.getProfilePicture() == "")
+            {
+                <img class="noselect" src="~/Content/Images/blankuser3.png">
+            }
+        </div>
+
+        <div class="profile-stats-container-sm">
+            <div class="profile-sm-pro pro-active" onclick="@("window.location.href='" + @Url.Action("ViewOthersGames", "Games", new { userName = username }) + "'");">
+                <div>Games</div>
+            </div>
+            <div class="profile-sm-pro inactive" onclick="@("window.location.href='" + @Url.Action("OtherFollowers", "Followers", new { userName = username }) + "'");">
+                <div>Followers</div>
+            </div>
+            <div class="profile-sm-pro inactive" onclick="@("window.location.href='" + @Url.Action("OtherFollowing", "Following", new { userName = username }) + "'");">
+                <div>Following</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="list-game-container noselect">
+    @using (Html.BeginForm())
+    {
+        if (Model.gamesList != null)
+        {
+            foreach (DBGame g in Model.gamesList)
+            {
+                <div class="outer container">
+                    <div class="list-games">
+                        <div class="list-game-component">
+                            <div class="game-image-container-md" style="background-image: url(//images.igdb.com/igdb/image/upload/t_cover_big/@(g.GameImgURL).jpg)">
+                                @if (g.GameImgURL == null)
+                        {
+                                    <div class="game-blank-md"><ion-icon name="logo-game-controller-b"></ion-icon></div>
+                                }
+                            </div>
+                            <div class="game-details-container">
+                                <div class="game-details">
+                                    <div class="game-name">@g.GameName</div>
+                                    <div class="game-date">@g.GameReleaseDate.ToString("MM/dd/yyyy")</div>
+                                    <div class="game-desc">@(g.GameDesc.Substring(0, Math.Min(300, g.GameDesc.Length)) + "...")</div>
+                                </div>
+                                <div class="game-button-container">
+                                    <div class="game-buttons">
+                                        @if (LoggedInUser.checkIfHasGameInLibrary(g.GameID))
+                                        {
+                                            <button class="btn-zenith red-other" name="btnRemove" type="button" onclick="@("window.location.href='" + @Url.Action("RemoveGameFromLibrary", "Games", new { gameID = g.GameID }) + "'")">Remove from Library</button>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn-zenith blue" type="button" name="btnSubmit" onclick="@("window.location.href='" + @Url.Action("AddGameToLibrary", "Games", new { gameID = g.GameID }) + "'")">Add to Library</button>
+                                        }
+                                        <a class="btn-zenith other" style="display: grid; align-content: center; justify-content: center;" href="@Url.Action("Index", "Game", new { id = g.GameID })">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="outer container">
+            <div class="none-to-show">
+                <div class="cry-text-sm"><i class="far fa-sad-cry no-data-icon-lg"></i></div>
+                <div class="header-text-xlg inactive-text noselect">No Games to Show</div>
+            </div>
+            </div>
+        }
+    }
+</div>

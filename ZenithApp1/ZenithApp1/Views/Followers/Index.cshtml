@@ -1,0 +1,67 @@
+﻿@using ZenithApp1.Models
+@model List<Following>
+
+@{
+    ViewBag.Title = "Followers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="inner-header container noselect">
+    <div class="follow-header">
+        <div class="follow-header-items">
+            <div class="header-text-sm header-item" onclick="@("window.location.href='" + @Url.Action("Index", "Followers") + "'");">Followers</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Index", "Following") + "'");">Following</div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Count > 0)
+{
+    foreach (Following f in Model)
+    {
+        User followerUser = ZenithApp1.Models.User.getUserById(f.FollowerID);
+        <div class="follow-box container outer noselect">
+            <div></div>
+            <div class="profile-picture-container-xsm" style="background-image: url(@followerUser.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = followerUser.UserName }) + "'");">
+                @if (followerUser.getProfilePicture() == null || followerUser.getProfilePicture() == "")
+                {
+                    <img class="noselect" src="~/Content/Images/blankuser3.png">
+                }
+            </div>
+            <div class="follow-main-component">
+                <div class="text-sm">@followerUser.UserName</div>
+                <div></div>
+                <div style="grid-column-start: 2; grid-row-start: 1;">
+                    @{DateTime dt = new DateTime();
+                        dt = Convert.ToDateTime(f.CreatedDate); }
+                    <div class="text-sm-inactive">Since @dt.ToShortDateString()</div>
+                </div>
+                <div></div>
+                
+                <div class="text-sm mid"><span onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = followerUser.UserName }) + "'");" class="header-item">Posts: @(followerUser.Posts.Count())</span></div>
+                <div class="text-sm mid"><span onclick="@("window.location.href='" + @Url.Action("ViewOthersGames", "Games", new { userName = followerUser.UserName }) + "'");" class="header-item">Games: @(followerUser.GameLibraries.Count())</span></div>
+                <div class="text-sm mid"><span onclick="@("window.location.href='" + @Url.Action("OtherFollowers", "Followers", new { userName = followerUser.UserName }) + "'");" class="header-item">Followers: @(followerUser.Followings1.Count())</span></div>
+                <div class="text-sm mid"><span onclick="@("window.location.href='" + @Url.Action("OtherFollowing", "Following", new { userName = followerUser.UserName }) + "'");" class="header-item">Following: @(followerUser.Followings.Count())</span></div>
+            </div>
+            <div></div>
+            <div></div>
+            <div class="follow-btn-box">
+                <button class="btn-zenith red-other" onclick="@("window.location.href='" + @Url.Action("Unfollowee", "Profile", new { userName = followerUser.UserName }) + "'");">
+                     Remove
+                </button>
+            </div>
+            <div></div>
+        </div>
+                            }
+
+                        }
+                        else
+                        {
+                            <div class="outer container">
+                                <div class="none-to-show">
+                                    <div class="cry-text-sm"><i class="far fa-sad-cry no-data-icon-lg"></i></div>
+                                    <div class="header-text-xlg inactive-text noselect">You don't have any followers yet!</div>
+                                </div>
+                            </div>
+                        }
+

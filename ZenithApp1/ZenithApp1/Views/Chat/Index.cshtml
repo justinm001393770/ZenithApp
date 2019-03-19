@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+
+<div class="chat-container">
+    <!-- Example row of columns -->
+    <div class="row">
+        <div class="container outer">
+            <table ID="flightsTable" class="fixed_header">
+                <tbody data-bind="foreach: flights" id="chatbox">
+                    <tr>
+                        <td>
+                            <div class="chat-msg-box">
+                                <div class="noselect"><img class="chat-img" data-bind="attr:{src: imagePath}" /></div>
+                                <div><span class="header-text-md" data-bind="text: $data.userName"></span><span class="header-text-md text-sm-inactive" style="margin-left: 10px;" data-bind="text: $data.createdDate"></span></div>
+                                <div></div>
+                                <div class="chat-msg-text"><span class="header-text-sm-chat" data-bind="text: $data.chatText"></span></div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-xs-12">
+            <div class="container outer" style="margin-bottom: 0">
+                    <form class="send-msg-container" onsubmit="sendMsg(); return false;">
+                        <div class="form-group">
+                            <input style="height: 100%;" type="text" autocomplete="off" class="inner text-box-1" placeholder="Press enter to send your message" id="message">
+                        </div>
+                        <button id="addMsg" type="button" class="btn-zenith blue" onclick="sendMsg()">Send</button>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div> <!-- /container -->
+
+
+@section Scripts {
+    <script src="~/Scripts/jquery.UI-1.10.js"></script>
+    <script src="~/Scripts/flightBookingViewModels.js"></script>
+    <script src="~/Scripts/flightBookingTicker.js"></script>
+<script type="text/javascript">
+    setInterval(updateScroll, 1);
+</script>
+}
+

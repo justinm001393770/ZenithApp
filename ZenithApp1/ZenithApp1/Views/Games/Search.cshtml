@@ -1,0 +1,32 @@
+﻿@using ZenithApp1.Models;
+@model ZenithApp1.ViewModels.API.APIViewModel
+
+@{
+    ViewBag.Title = "Search";
+}
+@using (Html.BeginForm())
+{
+    if (Model.gameList != null)
+    {
+        <h2>Search Results</h2>
+        int j = 1;
+        foreach (Game game in Model.gameList)
+        {
+            <div>@(j): <a href="@Url.Action("Index", "Game", new { id = game.id })">@game.name</a></div>
+            j++;
+        }
+    }
+    <h2>Most popular games:</h2>
+    if (Model.popularGames != null)
+    {
+        int i = 1;
+        foreach (Game game in Model.popularGames)
+        {
+            <div>@(i): <a href="@Url.Action("Index", "Game", new { id = game.id })">@game.name</a></div>
+            i++;
+        }
+    }
+    @Html.TextBoxFor(s => s.search)
+
+    <input type="submit" name="btnSubmit" value="Submit" />
+}

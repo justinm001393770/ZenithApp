@@ -1,0 +1,62 @@
+﻿@model ZenithApp1.ViewModels.Games.NewestReleasesViewModel
+@using ZenithApp1.Models;
+@using ZenithApp1.Models.APIModels;
+@{
+    ViewBag.Title = "MostPopular";
+}
+
+<div class="inner-header container noselect">
+    <div class="games-header">
+        <div class="games-header-items">
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Index", "Games") + "'");">Your Games</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("NewestReleases", "Games") + "'");">Newest Releases</div>
+            <div class="header-text-sm header-item" onclick="@("window.location.href='" + Url.Action("MostPopular", "Games") + "'");">Most Popular</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("Index", "GameSearch") + "'");">Basic Search</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("Index", "AdvancedSearch") + "'");">Advanced Search</div>
+        </div>
+        <div class="games-header-right">
+            <div class="header-text-icon header-item"><i class="fas fa-bars"></i></div>
+            <div class="header-text-icon header-item inactive"><i class="fas fa-th"></i></div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    foreach (GameForDB game in Model.gameList)
+    {
+        <div class="outer container">
+            <div class="list-games">
+                <div class="list-game-component">
+                    <div class="game-image-container-md" style="background-image: url(//images.igdb.com/igdb/image/upload/t_cover_big/@(game.cover.image_id).jpg)">
+                        @if (game.cover.image_id == null)
+                        {
+                            <div class="game-blank-md"><ion-icon name="logo-game-controller-b"></ion-icon></div>
+                        }
+                    </div>
+                    <div class="game-details-container">
+                        <div class="game-details">
+                            <div class="game-name">@game.name</div>
+                            <div class="game-date">@APILogicV3.convertUnixToDateTime(game.first_release_date).ToString("MM/dd/yyyy")</div>
+                            <div class="game-desc">@(game.summary.Substring(0, Math.Min(300, game.summary.Length)) + "...")</div>
+                        </div>
+                        <div class="game-button-container">
+                            <div class="game-buttons">
+                                @if (LoggedInUser.checkIfHasGameInLibrary(game.id))
+                                {
+                                    <button class="btn-zenith red-other" name="btnRemove" type="button" onclick="@("window.location.href='" + @Url.Action("RemoveGameFromLibrary", "Games", new { gameID = game.id }) + "'")">Remove from Library</button>
+                                }
+                                else
+                                {
+                                    <button class="btn-zenith blue" type="button" name="btnSubmit" onclick="@("window.location.href='" + @Url.Action("AddGameToLibrary", "Games", new { gameID = game.id }) + "'")">Add to Library</button>
+                                }
+                                <a class="btn-zenith other" style="display: grid; align-content: center; justify-content: center;" href="@Url.Action("Index", "Game", new { id = game.id })">More Info</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    }
+}

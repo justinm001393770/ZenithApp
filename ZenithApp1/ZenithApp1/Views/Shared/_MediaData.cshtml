@@ -1,0 +1,46 @@
+﻿@using ZenithApp1.Models
+@model List<ZenithApp1.Models.Medium>
+
+@foreach (var media in Model)
+{
+    User mediaOwner = ZenithApp1.Models.User.getUserById(media.UserID);
+
+
+    <div class="container outer">
+        <div class="post-container">
+            <div class="post-header">
+                <div class="posted-by inner">
+                    <div class="profile-picture-container-circle-sm clickable" style="background-image: url(@mediaOwner.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = mediaOwner.UserName }) + "'");">
+                        @if (mediaOwner.getProfilePicture() == null || mediaOwner.getProfilePicture() == "")
+                        {
+                            <img class="noselect" src="~/Content/Images/blankuser3.png">
+                        }
+                    </div>
+                    <div class="posted-by-details">
+                        <div class="posted-by-name">@mediaOwner.UserName</div>
+                        <div class="posted-date">@media.CreatedDate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="post-body">
+                <div class="post-images">
+                    @if (media.MediaPath != null && media.MediaPath.ToString() != "")
+                    {
+                        if (Medium.isVideo(media.MediaPath.ToString()))
+                        {
+                            <div>
+                                <video class="noselect" controls="controls" src="@(media.MediaPath)"/>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img class="noselect" src="@(media.MediaPath)">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+                        }

@@ -1,0 +1,110 @@
+﻿@using ZenithApp1.ViewModels.API;
+@using ZenithApp1.Models.APIModels;
+@model AdvancedSearchViewModel
+
+@{
+    ViewBag.Title = "Advanced Game Search";
+}
+
+<div class="inner-header container noselect">
+    <div class="games-header">
+        <div class="games-header-items">
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + @Url.Action("Index", "Games") + "'");">Your Games</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("NewestReleases", "Games") + "'");">Newest Releases</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("MostPopular", "Games") + "'");">Most Popular</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("Index", "GameSearch") + "'");">Basic Search</div>
+            <div class="header-text-sm header-item" onclick="@("window.location.href='" + Url.Action("Index", "AdvancedSearch") + "'");">Advanced Search</div>
+        </div>
+        <div class="games-header-right">
+            <div class="header-text-icon header-item"><i class="fas fa-bars"></i></div>
+            <div class="header-text-icon header-item inactive"><i class="fas fa-th"></i></div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="outer container text-adv-search">
+        <div class="adv-search-container">
+        <div>
+            <label>Search Term: </label>
+            @Html.TextBoxFor(a => a.advSearch.searchTerm)
+        </div>
+
+        <div>
+            <label>Age Ratings: </label>
+            @Html.DropDownListFor(a => a.advSearch.age_ratings[0].category, new SelectList(Enum.GetValues(typeof(AgeRating.categoryEnum))))
+        </div>
+        <div>
+            <label>Age Ratings Ranking</label>
+            @Html.DropDownListFor(a => a.advSearch.age_ratings[0].rating, new SelectList(Enum.GetValues(typeof(AgeRating.ratingEnum))))
+        </div>
+        <div>
+            <label>Game Modes: </label>
+            @Html.RadioButtonFor(a => a.advSearch.game_modes[0].slug, "Single player") Single Player
+            @Html.RadioButtonFor(a => a.advSearch.game_modes[0].slug, "Multiplayer") Multiplayer
+            @Html.RadioButtonFor(a => a.advSearch.game_modes[0].slug, "Co-operative") Co-operative
+            @Html.RadioButtonFor(a => a.advSearch.game_modes[0].slug, "Massively Multiplayer Online (MMO)") Massively Multiplayer Online (MMO)
+        </div>
+        <div>
+            <label>Genres:</label>
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Simulator") Simulator
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Tactical") Tactical
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Fighting") Fighting
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Strategy") Strategy
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Adventure") Adventure
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Role-playing (RPG)") Role-playing (RPG)
+            @Html.RadioButtonFor(a => a.advSearch.genres[0].slug, "Shooter") Shooter
+
+        </div>
+
+        <div>
+            <label>Keywords:</label>
+            @Html.TextBoxFor(a => a.advSearch.keywords[0].slug)
+        </div>
+
+        <div>
+            <label>Platforms:</label>
+            @Html.RadioButtonFor(a => a.advSearch.platforms[0].slug, "ps4--1") PlayStation 4
+            @Html.RadioButtonFor(a => a.advSearch.platforms[0].slug, "xboxone") Xbox One
+            @Html.RadioButtonFor(a => a.advSearch.platforms[0].slug, "win") Microsoft Windows
+        </div>
+
+        <div>
+            <label>Rating:</label>
+            @Html.TextBoxFor(a => a.advSearch.rating)
+        </div>
+
+         <div>
+            <label>Tags:</label>
+            @Html.TextBoxFor(a => a.advSearch.tags)
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; grid-gap: 1rem; padding-left: 1rem; padding-right: 1rem; padding-bottom: 1rem;">
+        <input type="reset" name="btnReset" class="btn-zenith red-other" value="Reset" />
+        <input type="submit" name="btnSubmit" class="btn-zenith blue" value="Search" />
+    </div>
+
+    </div>
+
+    if (Model.results != null)
+    {
+        <div class="outer container">
+            <div class="outer-header noselect">
+                <div class="header-text-sm">Search Results</div>
+            </div>
+            </div>
+            <div class="outer container text-adv-search">
+                <div class="adv-search-container">
+                    @{
+                        int j = 1;
+                        foreach (ZenithApp1.Models.Game game in Model.results)
+                        {
+                            <div>@(j): <a href="@Url.Action("Index", "Game", new { id = game.id })">@game.name</a></div>
+                            j++;
+                        }}
+                </div>
+            </div>
+            }
+            }

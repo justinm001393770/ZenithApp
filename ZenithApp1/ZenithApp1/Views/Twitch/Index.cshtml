@@ -1,0 +1,57 @@
+﻿@using ZenithApp1.ViewModels.Twitch;
+@using ZenithApp1.Models.APIModels.Twitch;
+@model TwitchViewModel
+
+
+@{
+    ViewBag.Title = "Watch";
+}
+
+@using (Html.BeginForm())
+{
+    if (Model.streams != null)
+    {
+        int j = 0;
+        foreach (ZenithApp1.Models.APIModels.Twitch.Stream stream in Model.streams)
+        {
+            if (j == 0)
+            {
+                <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+                <div id="SamplePlayerDivID@(j)"></div>
+                <script type="text/javascript">
+                var options = {
+                    width: 854,
+                    height: 480,
+                    channel: "@(stream.user_name)",
+                };
+                var player = new Twitch.Player("SamplePlayerDivID@(j)", options);
+                player.setVolume(0.5);
+                </script>
+                j++;
+            }
+            else
+            {
+                //Commented out old, uninteractive elements
+                //stream.thumbnail_url = stream.thumbnail_url.Replace("{height}", "250");
+                //stream.thumbnail_url = stream.thumbnail_url.Replace("{width}", "250");
+
+                //<div><p>Streamer: @(stream.user_name)</p><br /><p>Title: @(stream.title)</p><br /><p>Viewers: @(stream.viewer_count)</p><img src="@(stream.thumbnail_url)" /></div>
+            <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+            <div id="SamplePlayerDivID@(j)"></div>
+            <script type="text/javascript">
+                var options = {
+            width: 854,
+                    height: 480,
+                    channel: "@(stream.user_name)",
+                };
+            var player = new Twitch.Player("SamplePlayerDivID@(j)", options);
+            player.setMuted(true);
+            </script> 
+                j++;
+            }
+        }
+    }
+}
+
+<h2>Index</h2>
+

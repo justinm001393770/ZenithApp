@@ -1,0 +1,74 @@
+﻿@model ZenithApp1.ViewModels.GameLibrary.GameLibraryViewModel
+@using ZenithApp1.Models;
+@{
+    ViewBag.Title = "Your Games";
+}
+
+<div class="inner-header container noselect">
+    <div class="games-header">
+        <div class="games-header-items">
+            <div class="header-text-sm header-item" onclick="@("window.location.href='" + @Url.Action("Index", "Games") + "'");">Your Games</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("NewestReleases", "Games") + "'");">Newest Releases</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("MostPopular", "Games") + "'");">Most Popular</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("Index", "GameSearch") + "'");">Basic Search</div>
+            <div class="header-text-sm header-item inactive" onclick="@("window.location.href='" + Url.Action("Index", "AdvancedSearch") + "'");">Advanced Search</div>
+        </div>
+        <div class="games-header-right">
+            <div class="header-text-icon header-item"><i class="fas fa-bars"></i></div>
+            <div class="header-text-icon header-item inactive"><i class="fas fa-th"></i></div>
+        </div>
+    </div>
+</div>
+<div class="list-game-container noselect">
+    @using (Html.BeginForm())
+    {
+        if (Model.games != null)
+        {
+            foreach (DBGame g in Model.games)
+            {
+                <div class="outer container">
+                    <div class="list-games">
+                        <div class="list-game-component">
+                            <div class="game-image-container-md" style="background-image: url(//images.igdb.com/igdb/image/upload/t_cover_big/@(g.GameImgURL).jpg)">
+                                @if (g.GameImgURL == null)
+                        {
+                                    <div class="game-blank-md"><ion-icon name="logo-game-controller-b"></ion-icon></div>
+                                }
+                            </div>
+                            <div class="game-details-container">
+                                <div class="game-details">
+                                    <div class="game-name">@g.GameName</div>
+                                    <div class="game-date">@g.GameReleaseDate.ToString("MM/dd/yyyy")</div>
+                                    <div class="game-desc">@(g.GameDesc.Substring(0, Math.Min(300, g.GameDesc.Length)) + "...")</div>
+                                </div>
+                                <div class="game-button-container">
+                                    <div class="game-buttons">
+                                        @if (LoggedInUser.checkIfHasGameInLibrary(g.GameID))
+                                        {
+                                        <button class="btn-zenith red-other" name="btnRemove" type="button" onclick="@("window.location.href='" + @Url.Action("RemoveGameFromLibrary", "Games", new { gameID = g.GameID }) + "'")">Remove from Library</button>
+                                        }
+                                        else
+                                        {
+                                        <button class="btn-zenith blue" type="button" name="btnSubmit" onclick="@("window.location.href='" + @Url.Action("AddGameToLibrary", "Games", new { gameID = g.GameID }) + "'")" >Add to Library</button>
+                                        }
+                                        <a class="btn-zenith other" style="display: grid; align-content: center; justify-content: center;" href="@Url.Action("Index", "Game", new { id = g.GameID })">More Info</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="outer container">
+                <div class="none-to-show">
+                    <div class="cry-text-sm"><i class="far fa-sad-cry no-data-icon-lg"></i></div>
+                    <div class="header-text-xlg inactive-text noselect">You haven't added any games yet!</div>
+                </div>
+            </div>
+        }
+    }
+</div>

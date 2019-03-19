@@ -1,0 +1,45 @@
+﻿@using ZenithApp1.ViewModels
+@model LoginViewModel
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutLoggedOut.cshtml";
+}
+<div class="form-container">
+    <div class="login-container">
+        <div class="form-text-header">LOGIN</div>
+
+        <div id="loginForm" class="login-box">
+            @using (Html.BeginForm("Index", "Login", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-login", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="validation-sum">
+                    @Html.ValidationSummary(true, "", new { @class = "validation-text-center" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "text-sm" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "text-box-1" })
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "validation-text" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, new { @class = "text-sm" })
+                    <div class="col-md-10">
+                        @Html.PasswordFor(m => m.Password, new { @class = "text-box-1" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "validation-text" })
+                    </div>
+                </div>
+                <div class="button-tray-form">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Log in" class="btn-zenith blue" />
+                    </div>
+                </div>
+                <div class="tagline">
+                    <span class="tagline-text">Need an account? </span><span class="tagline-link" onclick="@("window.location.href='" + @Url.Action("Index", "SignUp") + "'");">Click here</span>
+                </div>
+                    
+            }
+        </div>
+    </div>
+</div>

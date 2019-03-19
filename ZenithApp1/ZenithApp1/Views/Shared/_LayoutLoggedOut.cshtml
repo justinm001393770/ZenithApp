@@ -1,0 +1,73 @@
+﻿@using ZenithApp1.Models;
+<!DOCTYPE html>
+<html id="html">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" href="normalize.css">
+    <link href="~/Content/style2.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/view-styles.css" rel="stylesheet" type="text/css" />
+</head>
+<div class="home-game-bg"></div>
+<div id="loadScreen" class="load">
+    <div class="loader"></div>
+    <div class="logo">
+        <i class="fas fa-gamepad"></i>
+    </div>
+</div>
+
+@{ ZenithContext db = new ZenithContext();
+    List<DBGame> games = db.Game.Where( r => r.GameImgURL != "").OrderBy(r => Guid.NewGuid()).Take(48).ToList();
+    <div class="home-game-bg">
+        <div class="container-full">
+            @foreach (DBGame g in games)
+            {
+
+                <div class="game-image-container-x" style="background-image: url(@(g.getImagePath())">
+                    @if (g.GameImgURL == null)
+                    {
+                        <div class="game-blank-md"><ion-icon name="logo-game-controller-b"></ion-icon></div>
+                    }
+                </div>
+
+            }
+        </div>
+    </div>
+}
+
+<body class="body-logged-out" onload="setTimeout(homeLoaded, 1)">
+    <div class="main-grid noselect">
+        <div class="main-header">
+            <div class="header-logo">
+                <ion-icon class="header-logo-icon" onclick="@("window.location.href='" + @Url.Action("Index", "Home") + "'");" name="logo-game-controller-b"></ion-icon>
+                <div class="header-logo-text">ZENITH</div>
+            </div>
+            <div class="header-left">
+                <div class="header-item-nav"><a href="https://s3.amazonaws.com/undecidedwiki/index.html">Project Wiki</a></div>
+                <div class="header-item-nav"></div>
+                <div class="header-item-nav"></div>
+                <div class="header-item-nav"></div>
+            </div>
+            <div class="header-expand"></div>
+            <div class="header-right">
+                <a href="@Url.Action("Index", "Login")">Login</a>
+                <a href="@Url.Action("Index", "Signup")">Sign Up</a>
+            </div>
+        </div>
+        <div class="main-body">
+            @RenderBody()
+        </div>
+        <div class="main-footer">
+            <hr>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/myScripts.js")
+    @Scripts.Render("https://unpkg.com/ionicons@4.4.7/dist/ionicons.js")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

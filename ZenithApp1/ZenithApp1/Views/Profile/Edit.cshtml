@@ -1,0 +1,48 @@
+﻿@using ZenithApp1.Models;
+@model ZenithApp1.ViewModels.Profile.EditViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="outer container">
+    <div class="outer-header noselect">
+        <div class="header-text-sm">Edit Profile</div>
+    </div>
+</div>
+<div class="outer container text-adv-search">
+    <div class="adv-search-container">
+        @*@using (Html.BeginForm())*@
+        @* { *@
+        <form action="" method="post" enctype="multipart/form-data">
+            <div>
+                <p>Username: @(LoggedInUser.UserName)</p>
+            </div>
+            <div>
+                <p>Email: @(Html.TextBoxFor(a => a.Email, new { value = Model.Email }))</p>
+            </div>
+            <div>
+                <p>Phone Number: @(Html.TextBoxFor(a => a.Phone, new { value = Model.Phone }))</p>
+            </div>
+            <div>
+                <p>First Name: @(Html.TextBoxFor(a => a.FirstName, new { value = Model.FirstName }))</p>
+            </div>
+            <div>
+                <p>Last Name: @(Html.TextBoxFor(a => a.LastName, new { value = Model.LastName }))</p>
+            </div>
+            <div>
+                <p>New Password: @(Html.TextBoxFor(a => a.Password, new { type = "password" }))</p>
+            </div>
+            <div>
+                <p>Confirm Password: @(Html.TextBoxFor(a => a.confirmPassword, new { type = "password" }))</p>
+            </div>
+            <div>
+                <label>Upload a profile picture: </label>
+                <input type="file" name="file" id="file" />
+            </div>
+            <br />
+            <input type="submit" name="btnSubmit" class="btn-zenith other" value="Submit Changes" />
+        </form>
+        </div>
+    </div>
+        @* } *@

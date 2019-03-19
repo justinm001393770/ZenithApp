@@ -1,0 +1,210 @@
+﻿@using ZenithApp1.ViewModels.Posts
+@using ZenithApp1.Models
+@model ZenithApp1.ViewModels.Posts.PostsViewModel
+<script src="https://code.jquery.com/jquery-3.0.0.min.js" type="text/javascript"></script>
+<script src="~/Scripts/imagepicker.js" type="text/javascript"></script>
+@{
+    ViewBag.Title = "Posts";
+
+    User postedByUser = ZenithApp1.Models.User.getUserById(Model.post.PostedByID);
+    User postedToUser;
+
+    if (Model.post.PostedByID != Model.post.PostedToID)
+    {
+        postedToUser = ZenithApp1.Models.User.getUserById(Model.post.PostedToID);
+    }
+    else
+    {
+        postedToUser = null;
+    }
+}
+
+<div class="two-column">
+    <div>
+        <div class="outer container">
+            <div class="outer-header">
+                <div class="header-text-sm noselect">Full Post</div>
+            </div>
+        </div>
+        <div class="container outer">
+            <div class="post-container">
+                <div class="post-header">
+                    <div class="posted-by inner">
+                        <div class="profile-picture-container-circle-sm clickable" style="background-image: url(@postedByUser.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = postedByUser.UserName }) + "'");">
+                            @if (postedByUser.getProfilePicture() == null || postedByUser.getProfilePicture() == "")
+                            {
+                                <img class="noselect" src="~/Content/Images/blankuser3.png">
+                            }
+                        </div>
+                        <div class="posted-by-details">
+                            <div class="posted-by-name">@postedByUser.UserName</div>
+                            <div class="posted-date">@Model.post.CreatedDate</div>
+                        </div>
+                    </div>
+                    @if (Model.post.PostedByID != Model.post.PostedToID)
+            {
+                        <div class="posted-to-icon"><i class="fas fa-file-import"></i></div>
+                        <div class="posted-to inner">
+                            <div class="profile-picture-container-circle-sm clickable" style="background-image: url(@postedToUser.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = postedToUser.UserName }) + "'");">
+                                @if (postedToUser.getProfilePicture() == null || postedToUser.getProfilePicture() == "")
+                                {
+                                    <img class="noselect" src="~/Content/Images/blankuser3.png">
+                                }
+                            </div>
+                            <div class="posted-by-details">
+                                <div class="posted-to-name">@postedToUser.UserName</div>
+                                <div style="height: 19.2px"></div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div></div>
+                        <div></div>
+                    }
+                </div>
+                <div class="post-body">
+                    <div class="post-text">
+                        <div class="post-title">@Model.post.PostTitle</div>
+                        <div class="post-contents">@Model.post.PostContents</div>
+                    </div>
+                    <div class="post-images">
+                        @{List<PostMedia> postMedia = Model.post.PostMedias.ToList();}
+                        @foreach (PostMedia m in postMedia)
+                        {
+                            <div class="post-picture-container-sm">
+                                @if (Medium.isVideo(m.Medium.MediaPath.ToString()))
+                                {
+                                <div>
+                                    <video class="noselect" controls="controls" src="@(m.Medium.MediaPath)" />
+                                </div>
+                                }
+                                else
+                                {
+                                <div>
+                                    <img class="noselect" src="@(m.Medium.MediaPath)">
+                                </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="new-post-comment-container">
+                    <div class="profile-picture-container-circle-sm" style="background-image: url(@Session["UserProfileImage"])">
+                        @if (Session["UserProfileImage"] == null || Session["UserProfileImage"].ToString() == "")
+            {
+                            <img class="noselect" src="~/Content/Images/blankuser3.png">
+                        }
+                    </div>
+                    <div id="CommentForm">
+                        @using (Html.BeginForm("Create", "PostComment", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "make-comment-container", role = "form" }))
+            {
+                            <div>
+                                @Html.TextBoxFor(m => m.comment.Comment, new { @placeholder = "Leave a comment on this post...", @style = "height: 100%", @class = "inner text-box-1", @autocomplete = "off", required = "true" })
+                            </div>
+                            @Html.HiddenFor(m => m.comment.IsActive, new { Value = true })
+                            @Html.HiddenFor(m => m.comment.IsReported, new { Value = false })
+                            @Html.HiddenFor(m => m.comment.PostID, new { Value = @Model.post.PostID })
+
+                            <div class="form-group">
+                                    <input type="submit" value="Comment" style="height:100%" class="btn-zenith btn-sm red" />
+                            </div>
+                        }
+                    </div>
+                </div>
+                @if (LoggedInUser.UserID == Model.post.PostedByID)
+                {
+                    <div class="post-controls">
+                        <div>
+                            <div class="post-see-more" onclick="@("window.location.href='" + @Url.Action("Edit", "Posts", new { postId = Model.post.PostID }) + "'");">
+                                <div class="see-more-link"><span class="noselect header-text-sm inactive">Edit Post</span></div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="outer container">
+            <div class="outer-header">
+                <div class="header-text-sm noselect">Comments</div>
+            </div>
+        </div>
+        @if (Model.post.PostComments.Count > 0)
+        {
+            <div class="comment-container">
+                <table class="table table-striped table-bordered table-condensed infinite-scroll">
+                    <tbody>
+                        @Html.Partial("_PostCommentData", (ViewBag.Projects as List<PostComment>))
+                    </tbody>
+                </table>
+                <button class="btn-zenith blue" id="loadmorecomments" onclick="loadProjectData('@Url.RouteUrl("PostCommentDataList")')">Load More</button>
+            </div>
+        }
+        else
+        {
+            <div class="container outer">
+                <div class="none-to-show">
+                    <div class="cry-text-sm"><i class="far fa-sad-cry no-data-icon"></i></div>
+                    <div class="header-text-sm inactive-text">No Comments</div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/lazyLoading.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+        });
+
+        var url = '@Url.RouteUrl("PostCommentDataList")';
+        $(window).scroll(scrollHandler);
+    </script>
+}
+
+<script type="text/javascript">
+
+    jQuery("select.image-picker").imagepicker({
+        hide_select: false,
+    });
+
+    jQuery("select.image-picker.show-labels").imagepicker({
+        hide_select: false,
+        show_label: true,
+    });
+
+    jQuery("select.image-picker.limit_callback").imagepicker({
+        limit_reached: function () { alert('We are full!') },
+        hide_select: false
+    });
+
+    var container = jQuery("select.image-picker.masonry").next("ul.thumbnails");
+    container.imagesLoaded(function () {
+        container.masonry({
+            itemSelector: "li",
+        });
+    });
+
+</script>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>

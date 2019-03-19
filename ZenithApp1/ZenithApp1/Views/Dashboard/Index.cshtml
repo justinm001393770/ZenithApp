@@ -1,0 +1,206 @@
+﻿@using ZenithApp1.Models
+@model ZenithApp1.ViewModels.Dashboard.DashboardViewModel
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<div class="two-column">
+    <div>
+        <div>
+            <div class="outer container">
+                <div class="outer-header noselect">
+                    <div class="header-text-sm">New Post</div>
+                </div>
+                <div class="new-post-container">
+                    <div class="profile-picture-container-circle-sm" style="background-image: url(@Session["UserProfileImage"])">
+                        @if (Session["UserProfileImage"] == null || Session["UserProfileImage"].ToString() == "")
+                        {
+                            <img class="noselect" src="~/Content/Images/blankuser3.png">
+                        }
+                    </div>
+                    <section id="PostForm">
+                        @using (Html.BeginForm("Create", "Post", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.TextBoxFor(m => m.post.PostTitle, new { @placeholder = "Post Title", @class = "inner text-box-1", @autocomplete = "off", required = "required" })
+                            @Html.ValidationMessageFor(m => m.post.PostTitle, "", new { @class = "text-danger" })
+                            @Html.TextAreaFor(m => m.post.PostContents, new { @placeholder = "Share the message in this box...", @class = "inner text-box-2", @style = "overflow:auto;resize:none", @autocomplete = "off", required = "required" })
+                            @Html.ValidationMessageFor(m => m.post.PostContents, "", new { @class = "text-danger" })
+                            @Html.HiddenFor(m => m.post.PostedByID, new { Value = LoggedInUser.UserID })
+                            @Html.HiddenFor(m => m.post.PostedToID, new { Value = LoggedInUser.UserID })
+                            @Html.HiddenFor(m => m.post.IsActive, new { Value = true })
+                            @Html.HiddenFor(m => m.post.IsReported, new { Value = false })
+                            <div class="new-post-button-container">
+                                <div></div>
+                                <div><button type="button" class="collapsible btn-zenith btn-sm other">Add Media</button></div>
+                                <div><input type="submit" value="Create Post" class="btn-zenith btn-sm red" /></div>
+                                <div class="imageselectorcontent" id="selectcontent">
+                                    <div class="picker">
+                                        <select multiple="multiple" class="image-picker inner show-html"
+                                                name="@Html.NameFor(m => m.editPostMedias)"
+                                                id="@Html.IdFor(m => m.editPostMedias)">
+
+                                            @{List<Medium> pickerImages = Model.usersMedia;}
+                                            @{long pickerCnt = 0;}
+                                            @foreach (Medium m in pickerImages)
+                                            {
+                                                pickerCnt = pickerCnt + 1;
+                                                if (m.MediaPath != null || m.MediaPath.ToString() != "")
+                                                {
+                                                    if (pickerCnt > 1)
+                                                    {
+
+                                                        <option data-img-src="@(m.MediaPath)"
+                                                                data-img-alt="@(m.MediaName)" class="img-select-item" value="@(m.MediaID)">
+                                                            @(m.MediaName)
+                                                        </option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option data-img-src="@(m.MediaPath)"
+                                                                data-img-class="first" class="img-select-item" data-img-alt="@(m.MediaName)" value="@(m.MediaID)">
+                                                            @(m.MediaName)
+                                                        </option>
+                                                    }
+                                                }
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                                            }
+                    </section>
+                    <div></div>
+
+                </div>
+            </div>
+        </div>
+
+        @{  List<ZenithApp1.Models.Post> list1 = ViewBag.Projects as List<Post>;
+            int postCount = list1.Count();
+            if (postCount > 0)
+            {
+                <div class="inner-header container noselect">
+                    <div class="outer-header">
+                        <div class="header-text-sm">Post Feed</div>
+                    </div>
+                </div>
+                    <table style="width: 100%" class="table table-striped table-bordered table-condensed infinite-scroll">
+                        <tbody>
+                            @Html.Partial("_PostData", (ViewBag.Projects as List<Post>))
+                        </tbody>
+                    </table>
+                }
+            else
+            {
+                <div class="outer container">
+                    <div class="outer-header">
+                        <div class="header-text-sm noselect">Post Feed</div>
+                    </div>
+                    <div class="none-to-show">
+                        <div class="cry-text-sm"><i class="far fa-sad-cry no-data-icon-lg"></i></div>
+                        <div class="header-text-xlg inactive-text noselect">No Posts to Show</div>
+                    </div>
+                </div>
+            }
+
+        }
+    </div>
+    <div class="sticky-container">
+        <div>
+            <div class="outer container noselect">
+                <div class="outer-header">
+                    <div class="header-text-sm">File Upload</div>
+                </div>
+                <div id="dropArea">
+                    <div class="header-text-sm dim-text">Drop your files here</div>
+                </div>
+                <ul class="list-group" id="uploadList"></ul>
+            </div>
+            @section Scripts{
+                <script type="text/javascript">
+                    $(function () {
+                        $('#dropArea').filedrop({
+                            url: '@Url.Action("UploadFiles")',
+                            allowedfiletypes: ['image/jpeg', 'image/png', 'image/gif', 'video/mp4'],
+                            allowedfileextensions: ['.jpg', '.jpeg', '.png', '.gif', '.mp4'],
+                            paramname: 'files',
+                            maxfiles: 5,
+                            maxfilesize: 40, // in MB
+                            dragOver: function () {
+                                $('#dropArea').addClass('active-drop');
+                            },
+                            dragLeave: function () {
+                                $('#dropArea').removeClass('active-drop');
+                            },
+                            drop: function () {
+                                $('#dropArea').removeClass('active-drop');
+                                $('#dropArea').addClass('drop-success');
+                            },
+                            afterAll: function (e) {
+                                $('#dropArea').html('file(s) uploaded successfully');
+                            },
+                            uploadFinished: function (i, file, response, time) {
+                                $('#uploadList').append('<li class="list-group-item drop-success-list">' + file.name + '</li>')
+                            }
+                        })
+                    })
+                </script>
+				<script src="~/Scripts/lazyLoading.js"></script>
+				<script type="text/javascript">
+					$(function () {
+
+					});
+
+					var url = '@Url.RouteUrl("PostDataListDash")';
+					$(window).scroll(scrollHandler);
+				</script>
+				<script src="https://code.jquery.com/jquery-3.0.0.min.js" type="text/javascript"></script>
+				<script src="~/Scripts/imagepicker.js" type="text/javascript"></script>
+				<script type="text/javascript">
+
+				jQuery("select.image-picker").imagepicker({
+				  hide_select:  false,
+				});
+
+				jQuery("select.image-picker.show-labels").imagepicker({
+				  hide_select:  false,
+				  show_label:   false,
+				});
+
+				jQuery("select.image-picker.limit_callback").imagepicker({
+				  limit_reached:  function(){alert('We are full!')},
+				  hide_select:    false
+				});
+
+				var container = jQuery("select.image-picker.masonry").next("ul.thumbnails");
+				container.imagesLoaded(function(){
+				  container.masonry({
+					itemSelector:   "li",
+				  });
+				});
+
+			  </script>
+
+			<script>
+			var coll = document.getElementsByClassName("collapsible");
+			var i;
+
+			for (i = 0; i < coll.length; i++) {
+			  coll[i].addEventListener("click", function() {
+				this.classList.toggle("active-add-media");
+				var content = document.getElementById("selectcontent")
+				if (content.style.display === "grid") {
+				  content.style.display = "none";
+				} else {
+				  content.style.display = "grid";
+				}
+			  });
+			}
+			</script>
+            }
+        </div>
+    </div>
+</div>

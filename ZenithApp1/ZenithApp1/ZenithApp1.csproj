@@ -1,0 +1,486 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A55D5621-7E59-4C66-BA42-FCDDE1592CB5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ZenithApp1</RootNamespace>
+    <AssemblyName>ZenithApp1</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.3.31.6\lib\net45\AWSSDK.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.3.31.14\lib\net45\AWSSDK.S3.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.SimpleEmail, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SimpleEmail.3.3.7.29\lib\net45\AWSSDK.SimpleEmail.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AWSSDK.SimpleNotificationService, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.SimpleNotificationService.3.3.3.17\lib\net45\AWSSDK.SimpleNotificationService.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.0\lib\net451\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.4.0.0\lib\net451\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.6.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.6.7\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Common, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.Common.4.3.0\lib\net451\System.Data.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.SqlClient, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Data.SqlClient.4.3.0\lib\net451\System.Data.SqlClient.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="TableDependency, Version=4.8.2.0, Culture=neutral, PublicKeyToken=997305cc1a8bb802, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SqlTableDependency.4.8.2.0\lib\TableDependency.dll</HintPath>
+    </Reference>
+    <Reference Include="TableDependency.SqlClient, Version=4.8.2.0, Culture=neutral, PublicKeyToken=c3b0a3ab9ceb00ff, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\SqlTableDependency.4.8.2.0\lib\TableDependency.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdvancedSearchController.cs" />
+    <Compile Include="Controllers\APIController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
+    <Compile Include="Controllers\ExploreController.cs" />
+    <Compile Include="Controllers\FlightBookingController.cs" />
+    <Compile Include="Controllers\FollowingController.cs" />
+    <Compile Include="Controllers\FollowersController.cs" />
+    <Compile Include="Controllers\GameController.cs" />
+    <Compile Include="Controllers\GameLibraryController.cs" />
+    <Compile Include="Controllers\GamesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogoutController.cs" />
+    <Compile Include="Controllers\PostCommentController.cs" />
+    <Compile Include="Controllers\PostController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\S3Controller.cs" />
+    <Compile Include="Controllers\SESController.cs" />
+    <Compile Include="Controllers\SignupController.cs" />
+    <Compile Include="Controllers\SNSController.cs" />
+    <Compile Include="Controllers\TwitchController.cs" />
+    <Compile Include="Controllers\WatchController.cs" />
+    <Compile Include="FlightBookingHub.cs" />
+    <Compile Include="FlightBookingService.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\HtmlUtility.cs" />
+    <Compile Include="Models\APIModels\AdvancedSearch.cs" />
+    <Compile Include="Models\APIModels\AgeRating.cs" />
+    <Compile Include="Models\APIModels\APILogicOLD.cs" />
+    <Compile Include="Models\APIModels\APILogicV3.cs" />
+    <Compile Include="Models\APIModels\APITwitchLogic.cs" />
+    <Compile Include="Models\APIModels\GameForDB.cs" />
+    <Compile Include="Models\APIModels\Platform.cs" />
+    <Compile Include="Models\APIModels\Twitch\Data.cs" />
+    <Compile Include="Models\APIModels\Twitch\Game.cs" />
+    <Compile Include="Models\APIModels\Twitch\Pagination.cs" />
+    <Compile Include="Models\APIModels\Twitch\Stream.cs" />
+    <Compile Include="Models\Banned.cs" />
+    <Compile Include="Models\Chat.cs" />
+    <Compile Include="Models\ChatText.cs" />
+    <Compile Include="Models\ChatUser.cs" />
+    <Compile Include="Models\APIModels\Collection.cs" />
+    <Compile Include="Models\APIModels\Cover.cs" />
+    <Compile Include="Models\DBGame.cs" />
+    <Compile Include="Models\DBMethods.cs" />
+    <Compile Include="Models\FlightAvailability.cs" />
+    <Compile Include="Models\FlightBook.cs" />
+    <Compile Include="Models\FlightsAvailability.cs" />
+    <Compile Include="Models\Following.cs" />
+    <Compile Include="Models\APIModels\Franchise.cs" />
+    <Compile Include="Models\APIModels\Game.cs" />
+    <Compile Include="Models\APIModels\GameEngine.cs" />
+    <Compile Include="Models\GameLibrary.cs" />
+    <Compile Include="Models\APIModels\GameMode.cs" />
+    <Compile Include="Models\APIModels\Genre.cs" />
+    <Compile Include="Models\APIModels\InlineModel1.cs" />
+    <Compile Include="Models\APIModels\InlineModel2.cs" />
+    <Compile Include="Models\APIModels\InlineModel3.cs" />
+    <Compile Include="Models\APIModels\InlineModel4.cs" />
+    <Compile Include="Models\APIModels\InlineModel5.cs" />
+    <Compile Include="Models\Interaction.cs" />
+    <Compile Include="Models\APIModels\Keyword.cs" />
+    <Compile Include="Models\LoggedInUser.cs" />
+    <Compile Include="Models\Medium.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\MessageText.cs" />
+    <Compile Include="Models\MessageUser.cs" />
+    <Compile Include="Models\APIModels\PlayerPerspective.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostComment.cs" />
+    <Compile Include="Models\PostInteraction.cs" />
+    <Compile Include="Models\PostMedia.cs" />
+    <Compile Include="Models\Salt.cs" />
+    <Compile Include="Models\SecurityQuestion.cs" />
+    <Compile Include="Models\APIModels\Theme.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\Verification.cs" />
+    <Compile Include="Models\ZenithContext.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AccountViewModel.cs" />
+    <Compile Include="ViewModels\API\AdvancedSearchViewModel.cs" />
+    <Compile Include="ViewModels\API\API.cs" />
+    <Compile Include="ViewModels\Dashboard\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\Explore\ExploreViewModel.cs" />
+    <Compile Include="ViewModels\GameLibrary\GameLibraryViewModel.cs" />
+    <Compile Include="ViewModels\Games\GamesViewModel.cs" />
+    <Compile Include="ViewModels\Games\NewestReleasesViewModel.cs" />
+    <Compile Include="ViewModels\Game\GameViewModel.cs" />
+    <Compile Include="ViewModels\Posts\PostsViewModel.cs" />
+    <Compile Include="ViewModels\Profile\EditProfile.cs" />
+    <Compile Include="ViewModels\Profile\EditViewModel.cs" />
+    <Compile Include="ViewModels\Profile\ProfileViewModel.cs" />
+    <Compile Include="ViewModels\Twitch\TwitchViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\blankuser.png" />
+    <Content Include="Content\Images\blankuser2.png" />
+    <Content Include="Content\Images\blankuser3.png" />
+    <Content Include="Content\style2.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\view-styles.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\flightBookingTicker.js" />
+    <Content Include="Scripts\flightBookingViewModels.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.filedrop.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.0.min.js" />
+    <Content Include="Scripts\jquery.UI-1.10.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\knockout-3.5.0.debug.js" />
+    <Content Include="Scripts\knockout-3.5.0.js" />
+    <Content Include="Scripts\knockout.mapping-latest.debug.js" />
+    <Content Include="Scripts\knockout.mapping-latest.js" />
+    <Content Include="Scripts\lazyLoading.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\myScripts.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\Explore\Index.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
+    <Content Include="Views\Watch\Index.cshtml" />
+    <Content Include="Views\Dashboard\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutLoggedOut.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Signup\Index.cshtml" />
+    <Content Include="Views\API\Index.cshtml" />
+    <Content Include="Views\Game\Index.cshtml" />
+    <Content Include="Views\AdvancedSearch\Index.cshtml" />
+    <Content Include="Views\Twitch\Index.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Shared\_PostData.cshtml" />
+    <Content Include="Views\GameLibrary\Index.cshtml" />
+    <Content Include="Views\Profile\Following.cshtml" />
+    <Content Include="Views\Profile\Followers.cshtml" />
+    <Content Include="Views\Post\Index.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
+    <Content Include="Views\Games\Index.cshtml" />
+    <Content Include="Views\Games\ViewOthersGames.cshtml" />
+    <Content Include="Views\Followers\Index.cshtml" />
+    <Content Include="Views\Followers\OtherFollowers.cshtml" />
+    <Content Include="Views\Following\Index.cshtml" />
+    <Content Include="Views\Following\OtherFollowing.cshtml" />
+    <Content Include="Views\Explore\Posts.cshtml" />
+    <Content Include="Views\Explore\Images.cshtml" />
+    <Content Include="Views\Explore\Videos.cshtml" />
+    <Content Include="Views\Shared\_PostCommentData.cshtml" />
+    <Content Include="Views\Games\NewestReleases.cshtml" />
+    <Content Include="Views\Games\MostPopular.cshtml" />
+    <Content Include="Views\Shared\_MediaData.cshtml" />
+    <Content Include="Views\Games\Search.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="UploadedFiles\" />
+    <Folder Include="Views\Logout\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.3.31.14\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.SimpleEmail.3.3.7.29\analyzers\dotnet\cs\AWSSDK.SimpleEmail.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.SimpleNotificationService.3.3.3.17\analyzers\dotnet\cs\AWSSDK.SimpleNotificationService.CodeAnalysis.dll" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>57912</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:57912/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

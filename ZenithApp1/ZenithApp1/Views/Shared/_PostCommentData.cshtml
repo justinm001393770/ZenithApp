@@ -1,0 +1,34 @@
+﻿@using ZenithApp1.Models
+@model List<ZenithApp1.Models.PostComment>
+
+@foreach (var postComment in Model)
+{
+    User commentUser = ZenithApp1.Models.User.getUserById(postComment.PostedByID);
+
+    <div class="container outer">
+        <div class="comment-container">
+            <div class="comment-header">
+                <div class="comment-by">
+                    <div class="profile-picture-container-circle-sm clickable" style="background-image: url(@commentUser.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = commentUser.UserName }) + "'");">
+                        @if (commentUser.getProfilePicture() == null || commentUser.getProfilePicture() == "")
+                        {
+                            <img class="noselect" src="~/Content/Images/blankuser3.png">
+                        }
+                    </div>
+                    <div class="posted-by-details">
+                        <div class="posted-by-name">@commentUser.UserName</div>
+                        <div class="posted-date">@postComment.CreatedDate</div>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-body">
+                <div class="post-text">
+                    @*<div class="post-title">@postComment.PostTitle</div>*@
+                    <div class="post-contents">@postComment.Comment</div>
+                </div>
+                <div class="post-images">
+                </div>
+            </div>
+        </div>
+    </div>
+                        }

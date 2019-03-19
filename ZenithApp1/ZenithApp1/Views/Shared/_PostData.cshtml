@@ -1,0 +1,92 @@
+﻿@using ZenithApp1.Models
+@model List<ZenithApp1.Models.Post>
+
+@foreach (var post in Model)
+{
+    User postedByUser = ZenithApp1.Models.User.getUserById(post.PostedByID);
+    User postedToUser;
+
+    if (post.PostedByID != post.PostedToID)
+    {
+        postedToUser = ZenithApp1.Models.User.getUserById(post.PostedToID);
+    }
+    else
+    {
+        postedToUser = null;
+    }
+
+    <div class="container outer">
+        <div class="post-container">
+            <div class="post-header">
+                <div class="posted-by inner">
+                    <div class="profile-picture-container-circle-sm clickable" style="background-image: url(@postedByUser.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = postedByUser.UserName }) + "'");">
+                        @if (postedByUser.getProfilePicture() == null || postedByUser.getProfilePicture() == "")
+                        {
+                            <img class="noselect" src="~/Content/Images/blankuser3.png">
+                        }
+                    </div>
+                    <div class="posted-by-details">
+                        <div class="posted-by-name">@postedByUser.UserName</div>
+                        <div class="posted-date">@post.CreatedDate</div>
+                    </div>
+                </div>
+                @if (post.PostedByID != post.PostedToID)
+                {
+                    <div class="posted-to-icon"><i class="fas fa-file-import"></i></div>
+                    <div class="posted-to inner">
+                        <div class="profile-picture-container-circle-sm clickable" style="background-image: url(@postedToUser.getProfilePicture())" onclick="@("window.location.href='" + @Url.Action("Index", "Profile", new { userName = postedToUser.UserName }) + "'");">
+                            @if (postedToUser.getProfilePicture() == null || postedToUser.getProfilePicture() == "")
+                            {
+                                <img class="noselect" src="~/Content/Images/blankuser3.png">
+                            }
+                        </div>
+                        <div class="posted-by-details">
+                            <div class="posted-to-name">@postedToUser.UserName</div>
+                            <div style="height: 19.2px"></div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div></div>
+                    <div></div>
+                }
+            </div>
+            <div class="post-body">
+                <div class="post-text">
+                    <div class="post-title">@post.PostTitle</div>
+                    <div class="post-contents">@post.PostContents</div>
+                </div>
+                <div class="post-images">
+                    @{PostMedia postMedia = post.PostMedias.FirstOrDefault();}
+                    @if (postMedia != null && postMedia.Medium.MediaPath != null && postMedia.Medium.MediaPath.ToString() != "")
+                    {
+                        if (Medium.isVideo(postMedia.Medium.MediaPath.ToString()))
+                        {
+                            <div>
+                                <video class="noselect" controls="controls" src="@(postMedia.Medium.MediaPath)"/>
+                            </div>
+                        }
+                        else
+                        {
+                            <div>
+                                <img class="noselect" src="@(postMedia.Medium.MediaPath)">
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="post-controls">
+                <div>
+                    <div class="post-see-more" onclick="@("window.location.href='" + @Url.Action("Index", "Posts", new { postId = @post.PostID }) + "'");">
+                        <div class="see-more-link"><span class="noselect header-text-sm inactive">See More</span></div>
+                        <div class="comment-count noselect">
+                            <div><span class="noselect header-text-sm inactive"><i class="far fa-comment-alt"></i></span></div>
+                            <div><span class="noselect header-text-sm inactive comment-counter">@post.PostComments.Count()</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+                        }

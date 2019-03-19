@@ -1,0 +1,21 @@
+﻿@model ZenithApp1.ViewModels.GameLibrary.GameLibraryViewModel
+@using ZenithApp1.Models;
+@{
+    ViewBag.Title = "Game Library";
+}
+
+<h2>Index</h2>
+@using (Html.BeginForm())
+{
+    if (Model.games != null)
+    {
+        foreach (DBGame g in Model.games)
+        {
+        <div>
+            <img src="//images.igdb.com/igdb/image/upload/t_cover_big/@(g.GameImgURL).jpg" />
+            <p>@g.GameName</p>
+        </div>
+
+        }
+    }
+}

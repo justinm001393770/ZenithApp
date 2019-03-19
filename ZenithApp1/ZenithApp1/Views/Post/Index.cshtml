@@ -1,0 +1,54 @@
+﻿<!-- Maps your CredentialsModel to your View -->
+@using ZenithApp1.ViewModels
+@model ZenithApp1.Models.Post
+@{
+    ViewBag.Title = "Post";
+}
+<h2>Post</h2>
+
+<section id="PostForm">
+    @using (Html.BeginForm("Create", "Post", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostTitle, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.PostTitle, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PostTitle, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.PostContents, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(m => m.PostContents, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.PostContents, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+				<div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(m => m.PostedByID, new { Value = @Session["CurrentUserId"] })
+                    </div>
+                </div>
+				<div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(m => m.PostedToID, new { Value = @Session["CurrentUserId"] })
+                    </div>
+                </div>
+				<div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(m => m.IsActive, new { Value = true })
+                    </div>
+                </div>
+				<div class="form-group">
+                    <div class="col-md-10">
+                        @Html.HiddenFor(m => m.IsReported, new { Value = false })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create Post" class="btn btn-default" />
+                    </div>
+                </div>
+    }
+</section>

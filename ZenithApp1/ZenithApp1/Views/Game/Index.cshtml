@@ -1,0 +1,55 @@
+﻿@model ZenithApp1.ViewModels.Game.GameViewModel
+@using ZenithApp1.Models;
+@{
+    ViewBag.Title = "Game";
+}
+<div class="outer container">
+        <div class="outer-header">
+            <div class="header-text-lg noselect">@Model.game.GameName</div>
+        </div>
+</div>
+<div class="outer container">
+    <div style="padding: 1rem; color: #8fa1bb;" class="">
+        @using (Html.BeginForm())
+        {
+            <div>
+                @Html.HiddenFor(a => a.id)
+                @Html.HiddenFor(a => a.game.GameID)
+                @Html.HiddenFor(a => a.game.GameName)
+                @Html.HiddenFor(a => a.game.GameDesc)
+                @Html.HiddenFor(a => a.game.GameReleaseDate)
+                @Html.HiddenFor(a => a.game.GameImgURL)
+                @try
+                {
+                    <div class="game-image-container-xlg" style="background-image: url(//images.igdb.com/igdb/image/upload/t_cover_big/@(Model.game.GameImgURL).jpg)">
+                        @if (Model.game.GameImgURL == null)
+                        {
+                            <div class="game-blank-xlg"><ion-icon name="logo-game-controller-b"></ion-icon></div>
+                        }
+                    </div>
+                }
+                catch
+                {
+                    <img src="https://s3.amazonaws.com/aws-final-user-images/Blue_question_mark_icon.svg.png" />
+                }
+
+
+            </div>
+            <div>
+                <h2>@Model.game.GameName</h2>
+            </div>
+            <div>
+                <p>@Model.game.GameDesc</p>
+            </div>
+            if (LoggedInUser.checkIfHasGameInLibrary(Model.game.GameID))
+            {
+            <button class="btn-zenith red-other" name="btnRemove" type="button" onclick="@("window.location.href='" + @Url.Action("RemoveGameFromLibrary", "Games", new { gameID = Model.game.GameID }) + "'")">Remove from Library</button>
+            }
+            else
+            {
+                <input class="btn-zenith blue" type="submit" name="btnSubmit" value="Add to Library" />
+            }
+
+        }
+    </div>
+</div>
